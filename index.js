@@ -47,8 +47,8 @@ $(function () {
                 startPanel.hide();
                 waitingPanel.show();
 
-                if ($.isArray(result)) {
-                    startGame(result);
+                if (result.game) {
+                    startGame(result.game);
                 }
 
                 runCheckingInterval();
@@ -56,9 +56,9 @@ $(function () {
         });
     }
 
-    function startGame(players) {
-        let player1 = players[0];
-        let player2 = players[1];
+    function startGame(gameData) {
+        let player1 = gameData.player1Name;
+        let player2 = gameData.player2Name;
         player1Name.text(player1);
         player2Name.text(player2);
         startPanel.hide();
@@ -70,9 +70,10 @@ $(function () {
         $.get('/ajax.php', {
             action: 'check_start'
         }, result => {
+            debugger;
             result = JSON.parse(result);
-            if (result && $.isArray(result)) {
-                startGame(result);
+            if (result && result.game) {
+                startGame(result.game);
                 clearInterval(chekingInterval);
             }
         });
@@ -92,7 +93,7 @@ $(function () {
                     startGame(result.is_playing);
                 }
 
-                if (result.name) {888888888888888
+                if (result.name) {
                     nameInput.val(result.name);
                 }
             }
