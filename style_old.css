@@ -1,0 +1,47 @@
+body {
+    padding: 10px;
+}
+
+#wordsTable {
+    margin: 10px auto;
+    border-collapse: collapse;
+}
+
+#wordsTable td {
+    width: 200px;
+    height: 80px;
+    border: 2px solid #333;
+    border-collapse: collapse;
+    font-size: 36px;
+    vertical-align: middle;
+    text-align: center;
+    letter-spacing: 2px;
+    font-family: Tahoma;
+}
+
+#wordsTable td.team1 {
+    background: #d35b51;
+    background: -webkit-linear-gradient(top, #d35b51 0%, #ee3e40 100%);
+}
+
+#wordsTable td.team2 {
+    background: #5961ba;
+    background: -webkit-linear-gradient(top, #5961ba 0%, #4e4fee 100%);
+}
+
+#wordsTable td.killer {
+    background: #444;
+    background: -webkit-linear-gradient(top, #52525d 0%, #4e4c51 100%);
+    color: #eee;
+}
+
+#wordsTable td.trivial {
+    background: #fff8e4;
+    background: -webkit-linear-gradient(top, #fff8e4 0%, #fcfffa 100%);
+}
+
+
+/* Первая страница */
+#settingsForm input{
+
+}
