@@ -1,14 +1,26 @@
 <?php
 
+require_once 'Game.php';
+
+const CACHE_FILENAME = 'cache.json';
+
 function readCache() {
-    $contents = file_get_contents('cache.json');
+    $contents = file_get_contents(CACHE_FILENAME);
     $contents = $contents ? json_decode($contents, true) : [];
     return $contents;
 }
 
 function writeCache($contents) {
     $contents = json_encode($contents);
-    file_put_contents('cache.json', $contents);
+    file_put_contents(CACHE_FILENAME, $contents);
+}
+
+function putToWaiting($name) {
+    $_SESSION['name'] = $name;
+    $cache = readCache();
+    $cache['searching'][] = $name;
+    $cache['searching'] = array_unique($cache['searching']);
+    writeCache($cache);
 }
 
 function checkWaitingPlayers() {
@@ -18,7 +30,10 @@ function checkWaitingPlayers() {
         while (count($searching) >= 2) {
             $player1 = array_shift($searching);
             $player2 = array_shift($searching);
-            $data['started'][] = [$player1, $player2];
+
+            // Создаём игру. В сессию здесь ничего не пишем, т.к. это будет работать лишь для одного игрока, а игра создаётся для обоих
+            $game = Game::generateNewGame($player1, $player2);
+            $data['started'][] = [$player1, $player2, $game->id];
         }
         writeCache($data);
     }
@@ -28,14 +43,19 @@ function checkWaitingPlayers() {
 
 function checkYourGameStarted() {
     $data = readCache();
+
     if (!empty($data['started'])) {
         foreach ($data['started'] as $startedGame) {
             if ($startedGame[0] == $_SESSION['name'] || $startedGame[1] == $_SESSION['name']) {
-                return $startedGame;
+                // Есть начатая игра! Чтобы выбрать игру из базы, запишем в сессию её ID
+                $_SESSION['game_id'] = $startedGame[2];
+                $_SESSION['playerIndex'] = ($startedGame[0] == $_SESSION['name']) ? 1 : 2;
             }
         }
     }
-    return false;
+
+    $game = Game::getFromDb();
+    return $game;
 }
 
 function removeFromWaiting() {

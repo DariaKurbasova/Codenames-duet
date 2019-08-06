@@ -5,19 +5,12 @@ require_once 'common.php';
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'start_game':
-            $cache = readCache();
-            $_SESSION['name'] = $_GET['name'];
-            $cache['searching'][] = $_GET['name'];
-            $cache['searching'] = array_unique($cache['searching']);
-            writeCache($cache);
-
-            $isStarted = checkWaitingPlayers();
-            echo $isStarted ? json_encode($isStarted) : '"Waiting"';
+            putToWaiting($_GET['name']);
+            echo gameToJsonAnswer(checkWaitingPlayers());
             break;
 
         case 'check_start':
-            $isStarted = checkWaitingPlayers();
-            echo json_encode($isStarted);
+            echo gameToJsonAnswer(checkWaitingPlayers());
             break;
 
         case 'stop_waiting':
@@ -26,12 +19,19 @@ if (isset($_GET['action'])) {
             break;
 
         case 'init_status':
+            $game = checkWaitingPlayers();
             $status = [
                 'name' => $_SESSION['name'],
                 'is_waiting' => isNowWaiting(),
-                'is_playing' => checkWaitingPlayers()
+                'is_playing' => ($game && $game instanceof Game) ? $game->toArray() : false
             ];
             echo json_encode($status);
             break;
     }
+}
+
+function gameToJsonAnswer($game) {
+    return ($game && $game instanceof Game) ? json_encode([
+        'game' => $game->toArray()
+    ]) : '"Waiting"';
 }
