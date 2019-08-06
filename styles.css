@@ -2,10 +2,10 @@
     margin: 0 auto;
     border-collapse: collapse;
     table-layout: fixed;
-    width: 1250px;
+    width: 1200px;
 }
 .main_table td {
-    width: 250px;
+    width: 240px;
     height: 80px;
     border: 2px solid #333;
     font-size: 30px;
@@ -75,4 +75,20 @@ p.glue {
 }
 .glue_number {
     width: 45px;
+}
+.waiting_guessing p {
+    display: block;
+    width: 500px;
+    margin: 20px auto 0 auto;
+    text-align: center;
+    font-family: Tahoma, sans-serif;
+    font-size: 30px;
+}
+.waiting_glue p {
+    display: block;
+    width: 500px;
+    margin: 20px auto 0 auto;
+    text-align: center;
+    font-family: Tahoma, sans-serif;
+    font-size: 30px;
 }
