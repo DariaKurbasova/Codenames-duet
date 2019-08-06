@@ -40,10 +40,10 @@
 
     <table class = "main_table">
         <tr>
-            <td class = "cell01">логос</td>
+            <td class = "cell01 agent_cell">логос</td>
             <td class = "cell02"></td>
             <td class = "cell03"></td>
-            <td class = "cell04"></td>
+            <td class = "cell04 killer_cell">социология</td>
             <td class = "cell05"></td>
         </tr>
         <tr>
@@ -51,7 +51,7 @@
             <td class = "cell07"></td>
             <td class = "cell08"></td>
             <td class = "cell09"></td>
-            <td class = "cell10"></td>
+            <td class = "cell10 common_agent_cell">бобер</td>
         </tr>
         <tr>
             <td class = "cell11"></td>
@@ -68,7 +68,7 @@
             <td class = "cell20"></td>
         </tr>
         <tr>
-            <td class = "cell21"></td>
+            <td class = "cell21 neutral_cell">дуги</td>
             <td class = "cell22"></td>
             <td class = "cell23"></td>
             <td class = "cell24"></td>
@@ -79,25 +79,26 @@
 </section>
 
 <div class= "phase">
-    <div class = "guessing">
+    <div class = "guessing hidden">
+        <p class = "glue">Подсказка: котики 3</p>
         <button class = "stop_guessing_button">Завершить ход</button>
     </div>
 
     <div class = "making_glue">
         <form>
             <label>Введите подсказку
-                <input type = "text" name = "glue_text">
-                <input type = "text" name = "glue_number">
+                <input class = "glue_text" type = "text" name = "glue_text">
             </label>
+            <input class = "glue_number" type = "text" name = "glue_number">
             <button class = "making_glue_button">Отправить подсказку</button>
         </form>
     </div>
 
-    <div class = "waiting_guessing">
+    <div class = "waiting_guessing hidden">
         <p>Другой игрок отградывает слова</p>
     </div>
 
-    <div class = "waiting_glue">
+    <div class = "waiting_glue hidden">
         <p>Ждите подсказки от другого игрока</p>
     </div>
 </div>

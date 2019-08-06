@@ -2,10 +2,10 @@
     margin: 0 auto;
     border-collapse: collapse;
     table-layout: fixed;
-    width: 1000px;
+    width: 1250px;
 }
 .main_table td {
-    width: 200px;
+    width: 250px;
     height: 80px;
     border: 2px solid #333;
     font-size: 30px;
@@ -18,4 +18,61 @@
 }
 h1 {
     text-align: center;
+}
+.main_table .agent_cell, .main_table .common_agent_cell {
+    background: #61d37e;
+    background: linear-gradient(top, #61d37e 0%, #31d851 100%);
+}
+.main_table .killer_cell {
+    background: #444;
+    background: linear-gradient(top, #52525d 0%, #4e4c51 100%);
+    color: #eee;
+}
+.main_table .neutral_cell {
+    background: #dadada;
+    background: linear-gradient(top, #fff8e4 0%, #fcfffa 100%);
+}
+.hidden {
+    display: none;
+}
+.guessing {
+    width: 400px;
+    margin: 0 auto;
+}
+p.glue {
+    display: block;
+    text-align: center;
+    font-family: Tahoma, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+}
+.stop_guessing_button {
+    display: block;
+    margin: 0 auto;
+    font-family: Tahoma, sans-serif;
+    font-size: 30px;
+    padding: 5px;
+    font-weight: bold;
+}
+.turns_count, .words_count {
+    display: inline-block;
+    margin: 0 0 20px 180px;
+}
+.making_glue {
+    text-align: center;
+    margin: 20px 0;
+}
+.making_glue_button {
+    display: block;
+    margin: 20px auto 0 auto;
+}
+.making_glue label, .making_glue input, .making_glue button {
+    font-family: Tahoma, sans-serif;
+    font-size: 30px;
+}
+.glue_text {
+    width: 200px;
+}
+.glue_number {
+    width: 45px;
 }
