@@ -1,6 +1,7 @@
 <?php
 
 require_once 'common.php';
+require_once 'Words.php';
 
 class Game
 {
@@ -47,6 +48,9 @@ class Game
                 $game->status = $gameData['status'];
                 $game->phase = $gameData['phase'];
                 $game->turnsCount = $gameData['turns_count'];
+
+                $words_array = new Words();
+                $game->words = $words_array->generateWords();
 
                 // todo - запрашиваем слова и считаем по ним нужную инфу
                 return $game;
