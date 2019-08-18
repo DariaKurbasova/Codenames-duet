@@ -40,7 +40,10 @@
 
     <table class = "main_table">
         <tr>
-            <td class = "cell01 agent_cell">логос</td>
+            <td class = "cell01 agent_cell">
+                логос
+                <img class = "neutral_guessed_my" src="img/me.png" title="Вы пытались угадать это слово">
+            </td>
             <td class = "cell02"></td>
             <td class = "cell03"></td>
             <td class = "cell04 killer_cell">социология</td>
@@ -56,13 +59,16 @@
         <tr>
             <td class = "cell11"></td>
             <td class = "cell12"></td>
-            <td class = "cell13"></td>
+            <td class = "cell13 agent_cell_guessed">
+                кисач
+                <img class = "neutral_guessed_parthner" src="img/partner.png" title="Это нейтральное слово пытался угадать ваш партнер">
+            </td>
             <td class = "cell14"></td>
             <td class = "cell15"></td>
         </tr>
         <tr>
             <td class = "cell16"></td>
-            <td class = "cell17"></td>
+            <td class = "cell17 killer_cell_guessed">сатана</td>
             <td class = "cell18"></td>
             <td class = "cell19"></td>
             <td class = "cell20"></td>
@@ -75,8 +81,6 @@
             <td class = "cell25"></td>
         </tr>
     </table>
-
-</section>
 
 <div class= "phase">
     <div class = "guessing hidden">
@@ -102,6 +106,7 @@
         <p>Ждите подсказки от другого игрока</p>
     </div>
 </div>
+</section>
 
 <script
     src="https://code.jquery.com/jquery-3.4.1.min.js"
