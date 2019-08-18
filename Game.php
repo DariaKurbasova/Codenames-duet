@@ -49,9 +49,6 @@ class Game
                 $game->phase = $gameData['phase'];
                 $game->turnsCount = $gameData['turns_count'];
 
-                $words_array = new Words();
-                $game->words = $words_array->generateWords();
-
                 // todo - запрашиваем слова и считаем по ним нужную инфу
                 return $game;
             } else {
@@ -72,12 +69,14 @@ class Game
         $game->phase = rand(0, 1) ? self::PHASE_PLAYER1_HINT : self::PHASE_PLAYER2_HINT;
         $game->createInDatabase();
 
-        // todo - генерировать и сохранять слова
+        $wordsGenerator = new Words();
+        $game->words = $wordsGenerator->generate();
+        // todo - сохранять слова
 
         return $game;
     }
 
-    public function createInDatabase()
+    private function createInDatabase()
     {
         global $database;
         $sql = "
@@ -88,6 +87,10 @@ class Game
         $this->id = $database->insert_id;
     }
 
+    /**
+     * Отдаёт инфу в нужном для фронтенда формате
+     * @return array
+     */
     public function toArray()
     {
         return [
