@@ -61,7 +61,7 @@
             <td class = "cell12"></td>
             <td class = "cell13 agent_cell_guessed">
                 кисач
-                <div class = "neutral_guessed_parthner" title="Это нейтральное слово пытался угадать ваш партнер"></div>
+                <div class = "neutral_guessed_partner" title="Это нейтральное слово пытался угадать ваш партнер"></div>
             </td>
             <td class = "cell14"></td>
             <td class = "cell15"></td>
