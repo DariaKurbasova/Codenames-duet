@@ -38,11 +38,11 @@
     <h2>Прошло ходов: х</h2>
     <h2>Слов отгадано: у из 15</h2>
 
-    <table class = "main_table">
+    <table class = "main_table colored">
         <tr>
             <td class = "cell01 agent_cell">
                 логос
-                <img class = "neutral_guessed_my" src="img/me.png" title="Вы пытались угадать это слово">
+                <div class = "neutral_guessed_my" title="Вы пытались угадать это слово"></div>
             </td>
             <td class = "cell02"></td>
             <td class = "cell03"></td>
@@ -54,14 +54,14 @@
             <td class = "cell07"></td>
             <td class = "cell08"></td>
             <td class = "cell09"></td>
-            <td class = "cell10 common_agent_cell">бобер</td>
+            <td class = "cell10 agent_cell">бобер</td>
         </tr>
         <tr>
             <td class = "cell11"></td>
             <td class = "cell12"></td>
             <td class = "cell13 agent_cell_guessed">
                 кисач
-                <img class = "neutral_guessed_parthner" src="img/partner.png" title="Это нейтральное слово пытался угадать ваш партнер">
+                <div class = "neutral_guessed_parthner" title="Это нейтральное слово пытался угадать ваш партнер"></div>
             </td>
             <td class = "cell14"></td>
             <td class = "cell15"></td>
