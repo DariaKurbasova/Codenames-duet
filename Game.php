@@ -49,9 +49,6 @@ class Game
                 $game->phase = $gameData['phase'];
                 $game->turnsCount = $gameData['turns_count'];
 
-                $words_array = new Words();
-                $game->words = $words_array->generateWords();
-
                 // todo - запрашиваем слова и считаем по ним нужную инфу
                 return $game;
             } else {
@@ -72,12 +69,14 @@ class Game
         $game->phase = rand(0, 1) ? self::PHASE_PLAYER1_HINT : self::PHASE_PLAYER2_HINT;
         $game->createInDatabase();
 
-        // todo - генерировать и сохранять слова
+        $wordsGenerator = new Words();
+        $game->words = $wordsGenerator->generate();
+        $game->createWordsInDb();
 
         return $game;
     }
 
-    public function createInDatabase()
+    private function createInDatabase()
     {
         global $database;
         $sql = "
@@ -88,6 +87,25 @@ class Game
         $this->id = $database->insert_id;
     }
 
+    private function createWordsInDb()
+    {
+        global $database;
+        $values = [];
+        foreach ($this->words as $cellNumber => &$word) {
+            $word['game_id'] = $this->id;
+            $word['cell_number'] = $cellNumber + 1;
+            $values[] = "($this->id, {$word['cell_number']}, '{$word['word']}', '{$word['type_for_player1']}', '{$word['type_for_player2']}')";
+        }
+        $values = implode(', ', $values);
+
+        $sql = "INSERT INTO game_words (game_id, cell_number, word, type_for_player1, type_for_player2) VALUES {$values}";
+        $database->query($sql);
+    }
+
+    /**
+     * Отдаёт инфу в нужном для фронтенда формате
+     * @return array
+     */
     public function toArray()
     {
         return [
