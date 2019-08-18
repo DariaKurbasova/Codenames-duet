@@ -14,7 +14,7 @@ $(function () {
 
     let chekingInterval = null;
 
-    startButton.click((event) => {
+    startButton.click(() => {
         let name = nameInput.val();
         if (name) {
             requestStartGame(name);
@@ -23,7 +23,7 @@ $(function () {
         }
     });
 
-    cancelButton.click((event) => {
+    cancelButton.click(() => {
         $.get('/ajax.php', {
             action: 'stop_waiting'
         }, result => {
@@ -64,13 +64,20 @@ $(function () {
         startPanel.hide();
         waitingPanel.hide();
         gamePanel.show();
+        drawWords(gameData.words);
+    }
+
+    function drawWords(words_array) {
+        debugger;
+        for (let i = 0; i < words_array.length; i++) {
+            $('.main_table td')[i].innerHTML = words_array[i].word;
+        }
     }
 
     function checkForStart() {
         $.get('/ajax.php', {
             action: 'check_start'
         }, result => {
-            debugger;
             result = JSON.parse(result);
             if (result && result.game) {
                 startGame(result.game);
@@ -102,7 +109,7 @@ $(function () {
 
     function runCheckingInterval()
     {
-        chekingInterval = setInterval(checkForStart, 5000);
+        checkingInterval = setInterval(checkForStart, 5000);
     }
 
     initStatus();
