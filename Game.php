@@ -18,6 +18,9 @@ class Game
 
     public $words = [];
 
+    private $wordsToShow = [];
+    private $agentsFound = 0;
+
     const STATUS_IN_PROCESS = 'in_process';
     const STATUS_WON = 'won';
     const STATUS_LOST = 'lost';
@@ -109,14 +112,17 @@ class Game
      */
     public function toArray()
     {
+        $this->processWordsInfo();
+
         return [
             'id' => $this->id,
-            'turnsCount' => $this->turnsCount,
             'player1Name' => $this->player1Name,
             'player2Name' => $this->player2Name,
-            'phase' => $this->phase,
             'status' => $this->status,
-            'words' => $this->words
+            'phase' => $this->phase,
+            'turnsCount' => $this->turnsCount,
+            'agentsFound' => $this->agentsFound,
+            'words' => $this->wordsToShow
         ];
     }
 
@@ -133,8 +139,50 @@ class Game
         }
     }
 
+    /**
+     * Смотрим слова
+     */
     private function processWordsInfo()
     {
         // Здесь основная логика, связанная с показом слов юзеру
+        $wordsToShow = [];
+        $isFirstPlayer = ($this->yourPlayerIndex == 1);
+        $agentsFound = 0;
+
+        foreach ($this->words as $word) {
+            if ($isFirstPlayer) {
+                $type_me = $word['type_for_player1'];
+                $type_partner = $word['type_for_player2'];
+                $guessed_me = $word['guessed_by_player1'];
+                $guessed_partner = $word['guessed_by_player2'];
+            } else {
+                $type_me = $word['type_for_player2'];
+                $type_partner = $word['type_for_player1'];
+                $guessed_me = $word['guessed_by_player2'];
+                $guessed_partner = $word['guessed_by_player1'];
+            }
+
+            // Если вы не пытались угадать это слово, то его тип для вас неизвестен
+            if (!$guessed_me) {
+                $type_me = 'unknown';
+            }
+
+            $wordsToShow[] = [
+                'cell_number' => $word['cell_number'],
+                'word' => $word['word'],
+                'type_me' => $type_me,
+                'type_partner' => $type_partner,
+                'guessed_me' => (bool)$guessed_me,
+                'guessed_partner' => (bool)$guessed_partner,
+            ];
+
+            // Считаем количество угаданных слов
+            if (($type_me == 'agent' && $guessed_me) || ($type_partner == 'agent' || $guessed_partner)) {
+                $agentsFound++;
+            }
+        }
+
+        $this->wordsToShow = $wordsToShow;
+        $this->agentsFound = $agentsFound;
     }
 }
