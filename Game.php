@@ -32,6 +32,7 @@ class Game
 
         // Если в сессии игрока есть ID игры, то находим её
         $gameId = (int)$_SESSION['game_id'];
+
         if ($gameId) {
             $gameData = $database->query("SELECT * FROM games WHERE id = {$gameId}");
 
@@ -49,7 +50,7 @@ class Game
                 $game->phase = $gameData['phase'];
                 $game->turnsCount = $gameData['turns_count'];
 
-                // todo - запрашиваем слова и считаем по ним нужную инфу
+                $game->getWordsFromDb();
                 return $game;
             } else {
                 return false;
@@ -115,7 +116,25 @@ class Game
             'player2Name' => $this->player2Name,
             'phase' => $this->phase,
             'status' => $this->status,
-            'words' => []// todo
+            'words' => $this->words
         ];
+    }
+
+    public function getWordsFromDb()
+    {
+        global $database;
+        if ($this->id) {
+            $sql = "SELECT * FROM game_words WHERE game_id = {$this->id} ORDER BY cell_number";
+            $words = $database->query($sql);
+            $this->words = [];
+            while ($word = $words->fetch_assoc()) {
+                $this->words[] = $word;
+            }
+        }
+    }
+
+    private function processWordsInfo()
+    {
+        // Здесь основная логика, связанная с показом слов юзеру
     }
 }
