@@ -71,7 +71,7 @@ class Game
 
         $wordsGenerator = new Words();
         $game->words = $wordsGenerator->generate();
-        // todo - сохранять слова
+        $game->createWordsInDb();
 
         return $game;
     }
@@ -85,6 +85,21 @@ class Game
         ";
         $database->query($sql);
         $this->id = $database->insert_id;
+    }
+
+    private function createWordsInDb()
+    {
+        global $database;
+        $values = [];
+        foreach ($this->words as $cellNumber => &$word) {
+            $word['game_id'] = $this->id;
+            $word['cell_number'] = $cellNumber + 1;
+            $values[] = "($this->id, {$word['cell_number']}, '{$word['word']}', '{$word['type_for_player1']}', '{$word['type_for_player2']}')";
+        }
+        $values = implode(', ', $values);
+
+        $sql = "INSERT INTO game_words (game_id, cell_number, word, type_for_player1, type_for_player2) VALUES {$values}";
+        $database->query($sql);
     }
 
     /**

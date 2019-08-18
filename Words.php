@@ -22,49 +22,49 @@ class Words {
                     'type_for_player2' => 'neutral'
                 ];
             } elseif ($i < 10) {
-                $this->words_for_game[$element] = [
+                $this->words_for_game[] = [
                     'word'  => $element,
                     'type_for_player1' => 'neutral',
                     'type_for_player2' => 'agent'
                 ];
             } elseif ($i == 10) {
-                $this->words_for_game[$element] = [
+                $this->words_for_game[] = [
                     'word'  => $element,
                     'type_for_player1' => 'agent',
                     'type_for_player2' => 'killer'
                 ];
             } elseif ($i == 11) {
-                $this->words_for_game[$element] = [
+                $this->words_for_game[] = [
                     'word'  => $element,
                     'type_for_player1' => 'killer',
                     'type_for_player2' => 'agent'
                 ];
             } elseif ($i == 12) {
-                $this->words_for_game[$element] = [
+                $this->words_for_game[] = [
                     'word'  => $element,
                     'type_for_player1' => 'killer',
                     'type_for_player2' => 'killer'
                 ];
             } elseif ($i < 16) {
-                $this->words_for_game[$element] = [
+                $this->words_for_game[] = [
                     'word'  => $element,
                     'type_for_player1' => 'agent',
                     'type_for_player2' => 'agent'
                 ];
             } elseif ($i < 23) {
-                $this->words_for_game[$element] = [
+                $this->words_for_game[] = [
                     'word'  => $element,
                     'type_for_player1' => 'neutral',
                     'type_for_player2' => 'neutral'
                 ];
             } elseif ($i == 23) {
-                $this->words_for_game[$element] = [
+                $this->words_for_game[] = [
                     'word'  => $element,
                     'type_for_player1' => 'killer',
                     'type_for_player2' => 'neutral'
                 ];
             } elseif ($i == 24) {
-                $this->words_for_game[$element] = [
+                $this->words_for_game[] = [
                     'word'  => $element,
                     'type_for_player1' => 'neutral',
                     'type_for_player2' => 'killer'
