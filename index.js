@@ -77,25 +77,27 @@ $(function () {
     }
 
     function drawWords(words_array) {
+        let cells = $('.main_table td');
         for (let i = 0; i < words_array.length; i++) {
-            let cells = $('.main_table td');
             cells[i].innerHTML = words_array[i].word;
-            // Закрашиваем слова, которые нужно загадать партнеру
-            if (words_array[i].type_partner == 'killer' && !words_array[i].guessed_partner) {
+            if ((words_array[i].type_me == 'killer' && words_array[i].guessed_me) || (words_array[i].type_partner == 'killer' && words_array[i].guessed_partner)) {
+                cells[i].classList.add('killer_cell_guessed');
+            } else if ((words_array[i].type_me == 'agent' && words_array[i].guessed_me) || (words_array[i].type_partner == 'agent' && words_array[i].guessed_partner)) {
+                cells[i].classList.add('agent_cell_guessed');
+            } else if (words_array[i].type_partner == 'killer' && !words_array[i].guessed_partner) {
                 cells[i].classList.add('killer_cell');
             } else if (words_array[i].type_partner == 'agent' && !words_array[i].guessed_partner) {
                 cells[i].classList.add('agent_cell');
             } else if (words_array[i].type_partner == 'neutral' && !words_array[i].guessed_partner) {
                 cells[i].classList.add('neutral_cell');
             }
-            // Закрашиваем слова, которые угадал кто-либо из игроков
-            if ((words_array[i].type_me == 'agent' && words_array[i].guessed_me) || (words_array[i].type_partner == 'agent' && words_array[i].guessed_partner)) {
-                cells[i].classList.add('agent_cell_guessed');
-            }
-            if ((words_array[i].type_me == 'killer' && words_array[i].guessed_me) || (words_array[i].type_partner == 'killer' && words_array[i].guessed_partner)) {
-                cells[i].classList.add('killer_cell_guessed');
-            }
 
+            if (words_array[i].type_me == 'neutral' && words_array[i].guessed_me) {
+                $('.neutral_guessed_my').clone().appendTo(cells[i]);
+            }
+            if (words_array[i].type_partner == 'neutral' && words_array[i].guessed_partner) {
+                $('.neutral_guessed_partner').clone().appendTo(cells[i]);
+            }
         }
     }
 
