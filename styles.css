@@ -50,7 +50,7 @@ h1 {
     height: 40px;
     border-radius: 20px;
     position: absolute;
-    background: white url("img/me.png");
+    background: rgba(255, 255, 255, 0.7) url("img/me.png");
     background-size: cover;
     border: 1px solid black;
     left: 0;
@@ -61,7 +61,7 @@ h1 {
     height: 40px;
     border-radius: 20px;
     position: absolute;
-    background: white url("img/partner.png");
+    background: rgba(255, 255, 255, 0.7) url("img/partner.png");
     background-size: cover;
     border: 1px solid black;
     right: 0;

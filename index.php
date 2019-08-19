@@ -40,9 +40,7 @@
 
     <table class = "main_table colored">
         <tr>
-            <td class = "cell01 agent_cell">
-<!--                <div class = "neutral_guessed_my" title="Вы пытались угадать это слово"></div>-->
-            </td>
+            <td class = "cell01"></td>
             <td class = "cell02"></td>
             <td class = "cell03"></td>
             <td class = "cell04"></td>
@@ -58,9 +56,7 @@
         <tr>
             <td class = "cell11"></td>
             <td class = "cell12"></td>
-            <td class = "cell13">
-<!--                <div class = "neutral_guessed_partner" title="Это нейтральное слово пытался угадать ваш партнер"></div>-->
-            </td>
+            <td class = "cell13"></td>
             <td class = "cell14"></td>
             <td class = "cell15"></td>
         </tr>
@@ -79,6 +75,13 @@
             <td class = "cell25"></td>
         </tr>
     </table>
+
+    <!-- Шаблоны значков для открытых нейтральных слов -->
+    <div style="display: none">
+        <div class = "neutral_guessed_partner" title="Это нейтральное слово пытался угадать ваш партнер"></div>
+        <div class = "neutral_guessed_my" title="Вы пытались угадать это слово"></div>
+    </div>
+
 
     <div class="button_center">
         <button class="toggleColored">Вкл/выкл раскраску</button>
