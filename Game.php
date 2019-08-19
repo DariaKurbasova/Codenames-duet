@@ -112,6 +112,7 @@ class Game
      */
     public function toArray()
     {
+        $this->prepareData();
         $this->processWordsInfo();
 
         return [
@@ -140,7 +141,25 @@ class Game
     }
 
     /**
-     * Смотрим слова
+     * Готовим данные для вывода на фронтенд
+     */
+    private function prepareData()
+    {
+        // Выводим фазу для текущего игрока
+        $isFirstPlayer = ($this->yourPlayerIndex == 1);
+        if ($this->phase == self::PHASE_PLAYER1_HINT) {
+            $this->phase = $isFirstPlayer ? 'makingGlue' : 'waitingGlue';
+        } elseif ($this->phase == self::PHASE_PLAYER2_HINT) {
+            $this->phase = !$isFirstPlayer ? 'makingGlue' : 'waitingGlue';
+        } elseif ($this->phase == self::PHASE_PLAYER1_GUESS) {
+            $this->phase = $isFirstPlayer ? 'guessing' : 'waitingGuess';
+        } elseif ($this->phase == self::PHASE_PLAYER2_GUESS) {
+            $this->phase = !$isFirstPlayer ? 'guessing' : 'waitingGuess';
+        }
+    }
+
+    /**
+     * Смотрим слова, оставляем только доступную юзеру информацию о них
      */
     private function processWordsInfo()
     {
@@ -177,7 +196,7 @@ class Game
             ];
 
             // Считаем количество угаданных слов
-            if (($type_me == 'agent' && $guessed_me) || ($type_partner == 'agent' || $guessed_partner)) {
+            if (($type_me == 'agent' && $guessed_me) || ($type_partner == 'agent' && $guessed_partner)) {
                 $agentsFound++;
             }
         }

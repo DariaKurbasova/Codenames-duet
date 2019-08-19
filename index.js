@@ -12,7 +12,12 @@ $(function () {
 
     let yourName = null;
 
-    let chekingInterval = null;
+    let checkingInterval = null;
+
+    let phaseGuessing = $('.guessing');
+    let phaseMakingGlue = $('.making_glue');
+    let phaseWaitingGuessing = $('.waiting_guessing');
+    let phaseWaitingGlue = $('.waiting_glue');
 
     startButton.click(() => {
         let name = nameInput.val();
@@ -28,7 +33,7 @@ $(function () {
             action: 'stop_waiting'
         }, result => {
             if (result === 'ok') {
-                clearInterval(chekingInterval);
+                clearInterval(checkingInterval);
                 waitingPanel.hide();
                 startPanel.show();
             }
@@ -61,16 +66,41 @@ $(function () {
         let player2 = gameData.player2Name;
         player1Name.text(player1);
         player2Name.text(player2);
+        // todo - кол-во ходов и отгаданных слов
         startPanel.hide();
         waitingPanel.hide();
         gamePanel.show();
         drawWords(gameData.words);
+        turnOnPhase(gameData.phase);
     }
 
     function drawWords(words_array) {
         debugger;
         for (let i = 0; i < words_array.length; i++) {
             $('.main_table td')[i].innerHTML = words_array[i].word;
+        }
+    }
+
+    // Включаем нужную панель в зависимости от фазы
+    function turnOnPhase(phase) {
+        phaseGuessing.hide();
+        phaseMakingGlue.hide();
+        phaseWaitingGuessing.hide();
+        phaseWaitingGlue.hide();
+
+        switch (phase) {
+            case 'guess':
+                phaseGuessing.show();
+                break;
+            case 'glue':
+                phaseMakingGlue.show();
+                break;
+            case 'waitingGuess':
+                phaseWaitingGuessing.show();
+                break;
+            case 'waitingGlue':
+                phaseWaitingGlue.show();
+                break;
         }
     }
 
@@ -81,7 +111,7 @@ $(function () {
             result = JSON.parse(result);
             if (result && result.game) {
                 startGame(result.game);
-                clearInterval(chekingInterval);
+                clearInterval(checkingInterval);
             }
         });
     }
@@ -111,6 +141,10 @@ $(function () {
     {
         checkingInterval = setInterval(checkForStart, 5000);
     }
+
+    $('.toggleColored').click(() => {
+        $('.main_table').toggleClass('colored');
+    });
 
     initStatus();
 

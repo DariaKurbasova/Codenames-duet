@@ -127,3 +127,15 @@ p.glue {
     font-family: Tahoma, sans-serif;
     font-size: 30px;
 }
+.button_center {
+    text-align: center;
+}
+.toggleColored {
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 18px;
+    padding: 5px 10px;
+    letter-spacing: 1px;
+    box-shadow: 1px 1px black;
+    cursor: pointer;
+}

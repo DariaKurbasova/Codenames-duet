@@ -82,30 +82,34 @@
         </tr>
     </table>
 
-<div class= "phase">
-    <div class = "guessing hidden">
-        <p class = "glue">Подсказка: котики 3</p>
-        <button class = "stop_guessing_button">Завершить ход</button>
+    <div class="button_center">
+        <button class="toggleColored">Вкл/выкл раскраску</button>
     </div>
 
-    <div class = "making_glue">
-        <form>
-            <label>Введите подсказку
-                <input class = "glue_text" type = "text" name = "glue_text">
-            </label>
-            <input class = "glue_number" type = "text" name = "glue_number">
-            <button class = "making_glue_button">Отправить подсказку</button>
-        </form>
-    </div>
+    <div class= "phase">
+        <div class = "guessing hidden">
+            <p class = "glue">Подсказка: котики 3</p>
+            <button class = "stop_guessing_button">Завершить ход</button>
+        </div>
 
-    <div class = "waiting_guessing hidden">
-        <p>Другой игрок отградывает слова</p>
-    </div>
+        <div class = "making_glue">
+            <form>
+                <label>Введите подсказку
+                    <input class = "glue_text" type = "text" name = "glue_text">
+                </label>
+                <input class = "glue_number" type = "text" name = "glue_number">
+                <button class = "making_glue_button">Отправить подсказку</button>
+            </form>
+        </div>
 
-    <div class = "waiting_glue hidden">
-        <p>Ждите подсказки от другого игрока</p>
+        <div class = "waiting_guessing hidden">
+            <p>Другой игрок отградывает слова</p>
+        </div>
+
+        <div class = "waiting_glue hidden">
+            <p>Ждите подсказки от другого игрока</p>
+        </div>
     </div>
-</div>
 </section>
 
 <script
