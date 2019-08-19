@@ -89,7 +89,7 @@
 
     <div class= "phase">
         <div class = "guessing hidden">
-            <p class = "glue">Подсказка: котики 3</p>
+            <p class = "glue">Подсказка: <span class="glueWordAndNumber">котики 3</span></p>
             <button class = "stop_guessing_button">Завершить ход</button>
         </div>
 

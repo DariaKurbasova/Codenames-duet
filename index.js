@@ -110,16 +110,22 @@ $(function () {
 
         switch (phase) {
             case 'guess':
+                clearInterval(turnWaitingInterval);
+                turnWaitingInterval = null;
                 phaseGuessing.show();
                 break;
             case 'glue':
+                clearInterval(turnWaitingInterval);
+                turnWaitingInterval = null;
                 phaseMakingGlue.show();
                 break;
             case 'waitingGuess':
                 phaseWaitingGuessing.show();
+                startCheckingTurn();
                 break;
             case 'waitingGlue':
                 phaseWaitingGlue.show();
+                startCheckingTurn();
                 break;
         }
     }
@@ -189,6 +195,25 @@ $(function () {
     function runCheckingInterval()
     {
         checkingInterval = setInterval(checkForStart, 5000);
+    }
+
+
+    function checkTurn() {
+        $.get('/ajax.php', {
+            action: 'check_turn'
+        }, result => {
+            result = JSON.parse(result);
+            if (result && result.game) {
+                startGame(result.game);
+            }
+        });
+    }
+
+    function startCheckingTurn()
+    {
+        if (!turnWaitingInterval) {
+            turnWaitingInterval = setInterval(checkTurn, 3000);
+        }
     }
 
     $('.toggleColored').click(() => {

@@ -46,6 +46,11 @@ if (isset($_GET['action'])) {
 
             echo json_encode($answer);
             break;
+
+        case 'check_turn':
+            $game = Game::getFromDb();
+            echo gameToJsonAnswer($game);
+            break;
     }
 }
 
