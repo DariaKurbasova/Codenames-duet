@@ -35,8 +35,8 @@
         <span id="player1Name"></span> vs <span id="player2Name"></span>
     </h1>
 
-    <h2>Прошло ходов: х</h2>
-    <h2>Слов отгадано: у из 15</h2>
+    <h2 id = "turns_passed"></h2>
+    <h2 id = "words_guessed"></h2>
 
     <table class = "main_table colored">
         <tr>

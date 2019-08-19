@@ -68,6 +68,8 @@ $(function () {
         let player2 = gameData.player2Name;
         player1Name.text(player1);
         player2Name.text(player2);
+        $('#turns_passed').text('Прошло ходов: ' + gameData.turnsCount);
+        $('#words_guessed').text('Слов отгадано: ' + gameData.agentsFound + ' из 15');
         // todo - кол-во ходов и отгаданных слов
         startPanel.hide();
         waitingPanel.hide();
