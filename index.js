@@ -70,7 +70,7 @@ $(function () {
         player2Name.text(player2);
         $('#turns_passed').text('Прошло ходов: ' + gameData.turnsCount);
         $('#words_guessed').text('Слов отгадано: ' + gameData.agentsFound + ' из 15');
-        // todo - кол-во ходов и отгаданных слов
+        $('.glueWordAndNumber').text(gameData.glueWord + ' ' + gameData.glueNumber);
         startPanel.hide();
         waitingPanel.hide();
         gamePanel.show();
@@ -112,16 +112,22 @@ $(function () {
 
         switch (phase) {
             case 'guess':
+                clearInterval(turnWaitingInterval);
+                turnWaitingInterval = null;
                 phaseGuessing.show();
                 break;
             case 'glue':
+                clearInterval(turnWaitingInterval);
+                turnWaitingInterval = null;
                 phaseMakingGlue.show();
                 break;
             case 'waitingGuess':
                 phaseWaitingGuessing.show();
+                startCheckingTurn();
                 break;
             case 'waitingGlue':
                 phaseWaitingGlue.show();
+                startCheckingTurn();
                 break;
         }
     }
@@ -191,6 +197,25 @@ $(function () {
     function runCheckingInterval()
     {
         checkingInterval = setInterval(checkForStart, 5000);
+    }
+
+
+    function checkTurn() {
+        $.get('/ajax.php', {
+            action: 'check_turn'
+        }, result => {
+            result = JSON.parse(result);
+            if (result && result.game) {
+                startGame(result.game);
+            }
+        });
+    }
+
+    function startCheckingTurn()
+    {
+        if (!turnWaitingInterval) {
+            turnWaitingInterval = setInterval(checkTurn, 3000);
+        }
     }
 
     $('.toggleColored').click(() => {
