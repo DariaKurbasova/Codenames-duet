@@ -54,6 +54,8 @@ class Game
                 $game->status = $gameData['status'];
                 $game->phase = $gameData['phase'];
                 $game->turnsCount = $gameData['turns_count'];
+                $game->glueWord = $gameData['hint_word'];
+                $game->glueNumber = $gameData['hint_number'];
 
                 $game->getWordsFromDb();
                 return $game;
