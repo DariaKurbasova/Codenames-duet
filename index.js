@@ -28,6 +28,8 @@ $(function () {
         }
     });
 
+    let turnWaitingInterval = null;
+
     cancelButton.click(() => {
         $.get('/ajax.php', {
             action: 'stop_waiting'
@@ -152,6 +154,35 @@ $(function () {
             }
         });
     }
+
+    $('.making_glue_button').click(function() {
+        let glueWord   = $('.glue_text').val();
+        let glueNumber = parseInt($('.glue_number').val());
+
+        if (glueWord.length < 2) {
+            alert('Введите подсказку-слово');
+            return false;
+        } else if (glueNumber < 1) {
+            alert('Введите подсказу-число');
+            return false;
+        }
+
+        $(this).hide();
+
+        $.get('/ajax.php', {
+            action: 'make_glue',
+            word: glueWord,
+            number: glueNumber
+        }, result => {
+            result = JSON.parse(result);
+            if (result.game) {
+                startGame(result.game);
+            }
+
+            $(this).show();
+        });
+
+    });
 
     function runCheckingInterval()
     {

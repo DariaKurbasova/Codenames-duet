@@ -27,6 +27,25 @@ if (isset($_GET['action'])) {
             ];
             echo json_encode($status);
             break;
+
+        case 'make_glue':
+            $game = Game::getFromDb();
+            $glueNumber = $_GET['number'];
+            $glueWord = $_GET['word'];
+            if ($game && $glueNumber >= 1 && $glueWord) {
+                $game->makeGlue($glueWord, $glueNumber);
+                $answer = [
+                    'success' => true,
+                    'game' => $game->toArray()
+                ];
+            } else {
+                $answer = [
+                    'success' => false
+                ];
+            }
+
+            echo json_encode($answer);
+            break;
     }
 }
 

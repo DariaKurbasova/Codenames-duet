@@ -91,13 +91,11 @@
         </div>
 
         <div class = "making_glue">
-            <form>
-                <label>Введите подсказку
-                    <input class = "glue_text" type = "text" name = "glue_text">
-                </label>
-                <input class = "glue_number" type = "text" name = "glue_number">
-                <button class = "making_glue_button">Отправить подсказку</button>
-            </form>
+            <label>Введите подсказку
+                <input class = "glue_text" type = "text" name = "glue_text">
+            </label>
+            <input class = "glue_number" type = "number" min="1" max="9" name = "glue_number">
+            <button class = "making_glue_button">Отправить подсказку</button>
         </div>
 
         <div class = "waiting_guessing hidden">

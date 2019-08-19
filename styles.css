@@ -104,12 +104,13 @@ p.glue {
 .making_glue label, .making_glue input, .making_glue button {
     font-family: Tahoma, sans-serif;
     font-size: 30px;
+    padding: 2px 5px;
 }
 .glue_text {
     width: 200px;
 }
 .glue_number {
-    width: 45px;
+    width: 55px;
 }
 .waiting_guessing p {
     display: block;

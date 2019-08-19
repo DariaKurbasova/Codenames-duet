@@ -12,6 +12,8 @@ class Game
     public $player1Name;
     public $player2Name;
     public $turnsCount;
+    public $glueWord;
+    public $glueNumber;
 
     /** @var int  Кто вы, игрок 1 или игрок 2 */
     public $yourPlayerIndex;
@@ -123,6 +125,8 @@ class Game
             'phase' => $this->phase,
             'turnsCount' => $this->turnsCount,
             'agentsFound' => $this->agentsFound,
+            'glueWord' => $this->glueWord,
+            'glueNumber' => $this->glueNumber,
             'words' => $this->wordsToShow
         ];
     }
@@ -203,5 +207,29 @@ class Game
 
         $this->wordsToShow = $wordsToShow;
         $this->agentsFound = $agentsFound;
+    }
+
+    public function makeGlue($glueWord, $glueNumber)
+    {
+        if (
+            ($this->phase == self::PHASE_PLAYER1_HINT && $this->yourPlayerIndex == 1) ||
+            ($this->phase == self::PHASE_PLAYER2_HINT && $this->yourPlayerIndex == 2)
+        ) {
+            // Записываем подсказку в базу, обновляем фазу игры
+            $this->phase = ($this->phase == self::PHASE_PLAYER1_HINT) ? self::PHASE_PLAYER2_GUESS : self::PHASE_PLAYER1_GUESS;
+            $this->glueWord = $glueWord;
+            $this->glueNumber = $glueNumber;
+            $this->saveGlueToDb();
+        }
+
+    }
+
+    public function saveGlueToDb() {
+        global $database;
+        $sql = "UPDATE games 
+            SET phase = '{$this->phase}', hint_word = '{$this->glueWord}', hint_number = {$this->glueNumber} 
+            WHERE id = {$this->id}
+        ";
+        $database->query($sql);
     }
 }
