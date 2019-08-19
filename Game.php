@@ -148,13 +148,13 @@ class Game
         // Выводим фазу для текущего игрока
         $isFirstPlayer = ($this->yourPlayerIndex == 1);
         if ($this->phase == self::PHASE_PLAYER1_HINT) {
-            $this->phase = $isFirstPlayer ? 'makingGlue' : 'waitingGlue';
+            $this->phase = $isFirstPlayer ? 'glue' : 'waitingGlue';
         } elseif ($this->phase == self::PHASE_PLAYER2_HINT) {
-            $this->phase = !$isFirstPlayer ? 'makingGlue' : 'waitingGlue';
+            $this->phase = !$isFirstPlayer ? 'glue' : 'waitingGlue';
         } elseif ($this->phase == self::PHASE_PLAYER1_GUESS) {
-            $this->phase = $isFirstPlayer ? 'guessing' : 'waitingGuess';
+            $this->phase = $isFirstPlayer ? 'guess' : 'waitingGuess';
         } elseif ($this->phase == self::PHASE_PLAYER2_GUESS) {
-            $this->phase = !$isFirstPlayer ? 'guessing' : 'waitingGuess';
+            $this->phase = !$isFirstPlayer ? 'guess' : 'waitingGuess';
         }
     }
 

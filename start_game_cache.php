@@ -49,7 +49,7 @@ function checkYourGameStarted() {
             if ($startedGame[0] == $_SESSION['name'] || $startedGame[1] == $_SESSION['name']) {
                 // Есть начатая игра! Чтобы выбрать игру из базы, запишем в сессию её ID
                 $_SESSION['game_id'] = $startedGame[2];
-                $_SESSION['playerIndex'] = ($startedGame[0] == $_SESSION['name']) ? 1 : 2;
+                $_SESSION['player_index'] = ($startedGame[0] == $_SESSION['name']) ? 1 : 2;
             }
         }
     }
