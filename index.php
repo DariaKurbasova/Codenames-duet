@@ -41,12 +41,11 @@
     <table class = "main_table colored">
         <tr>
             <td class = "cell01 agent_cell">
-                логос
-                <div class = "neutral_guessed_my" title="Вы пытались угадать это слово"></div>
+<!--                <div class = "neutral_guessed_my" title="Вы пытались угадать это слово"></div>-->
             </td>
             <td class = "cell02"></td>
             <td class = "cell03"></td>
-            <td class = "cell04 killer_cell">социология</td>
+            <td class = "cell04"></td>
             <td class = "cell05"></td>
         </tr>
         <tr>
@@ -54,27 +53,26 @@
             <td class = "cell07"></td>
             <td class = "cell08"></td>
             <td class = "cell09"></td>
-            <td class = "cell10 agent_cell">бобер</td>
+            <td class = "cell10"></td>
         </tr>
         <tr>
             <td class = "cell11"></td>
             <td class = "cell12"></td>
-            <td class = "cell13 agent_cell_guessed">
-                кисач
-                <div class = "neutral_guessed_partner" title="Это нейтральное слово пытался угадать ваш партнер"></div>
+            <td class = "cell13">
+<!--                <div class = "neutral_guessed_partner" title="Это нейтральное слово пытался угадать ваш партнер"></div>-->
             </td>
             <td class = "cell14"></td>
             <td class = "cell15"></td>
         </tr>
         <tr>
             <td class = "cell16"></td>
-            <td class = "cell17 killer_cell_guessed">сатана</td>
+            <td class = "cell17"></td>
             <td class = "cell18"></td>
             <td class = "cell19"></td>
             <td class = "cell20"></td>
         </tr>
         <tr>
-            <td class = "cell21 neutral_cell">дуги</td>
+            <td class = "cell21"></td>
             <td class = "cell22"></td>
             <td class = "cell23"></td>
             <td class = "cell24"></td>

@@ -45,7 +45,7 @@ h1 {
     box-shadow: inset 0 0 20px 5px #c81b18;
     color: #c60000;
 }
-.neutral_guessed_my {
+.main_table .neutral_guessed_my {
     width: 40px;
     height: 40px;
     border-radius: 20px;
@@ -53,10 +53,10 @@ h1 {
     background: white url("img/me.png");
     background-size: cover;
     border: 1px solid black;
-    right: 0;
+    left: 0;
     top: 0;
 }
-.neutral_guessed_partner {
+.main_table .neutral_guessed_partner {
     width: 40px;
     height: 40px;
     border-radius: 20px;
