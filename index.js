@@ -70,7 +70,7 @@ $(function () {
         player2Name.text(player2);
         $('#turns_passed').text('Прошло ходов: ' + gameData.turnsCount);
         $('#words_guessed').text('Слов отгадано: ' + gameData.agentsFound + ' из 15');
-        // todo - кол-во ходов и отгаданных слов
+        $('.glueWordAndNumber').text(gameData.glueWord + ' ' + gameData.glueNumber);
         startPanel.hide();
         waitingPanel.hide();
         gamePanel.show();
