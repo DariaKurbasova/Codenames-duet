@@ -21,27 +21,22 @@ h1 {
     text-align: center;
 }
 .main_table.colored .agent_cell {
-    background: #61d37e;
-    background: linear-gradient(top, #61d37e 0%, #31d851 100%);
+    background: linear-gradient(to top, #61d37e, #31d851);
 }
 .main_table.colored .killer_cell {
-    background: #444;
-    background: linear-gradient(top, #52525d 0%, #4e4c51 100%);
+    background: linear-gradient(to top, #52525d, #4e4c51);
     color: #eee;
 }
 .main_table.colored .neutral_cell {
-    background: #dadada;
-    background: linear-gradient(top, #fff8e4 0%, #fcfffa 100%);
+    background: linear-gradient(to top, #fff8e4, #fcfffa);
 }
 .main_table .agent_cell_guessed {
-    background: #8cf4b0;
-    background: linear-gradient(top, #8cf4b0 0%, #63f981 100%);
+    background: linear-gradient(to top, #8cf4b0, #63f981);
     box-shadow: inset 0 0 20px 5px #5f6e5d;
     color: #5f6e5d;
 }
 .main_table .killer_cell_guessed {
-    background: #8b8b8b;
-    background: linear-gradient(top, #8b8b8b 0%, #87848b 100%);
+    background: linear-gradient(to top, #8b8b8b, #87848b);
     box-shadow: inset 0 0 20px 5px #c81b18;
     color: #c60000;
 }
