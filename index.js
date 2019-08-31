@@ -76,6 +76,7 @@ $(function () {
         gamePanel.show();
         drawWords(gameData.words);
         turnOnPhase(gameData.phase);
+        letWordsBeChosen(gameData);
     }
 
     function drawWords(words_array) {
@@ -129,6 +130,21 @@ $(function () {
                 phaseWaitingGlue.show();
                 startCheckingTurn();
                 break;
+        }
+    }
+
+    function letWordsBeChosen (gameData) {
+        if (gameData.phase == 'guess') {
+            for (let i = 1; i <= gameData.words.length; i++) {
+                let cell_class = '.cell' + i;
+                if (!gameData.words[i-1].guessed_me) {
+                    if (!gameData.words[i-1].guessed_partner) {
+                        $(cell_class).addClass('clickable');
+                    } else if (gameData.words[i-1].type_partner != 'killer' && gameData.words[i-1].type_partner != 'agent') {
+                        $(cell_class).addClass('clickable');
+                    }
+                }
+            }
         }
     }
 

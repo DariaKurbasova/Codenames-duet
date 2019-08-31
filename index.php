@@ -40,17 +40,17 @@
 
     <table class = "main_table colored">
         <tr>
-            <td class = "cell01"></td>
-            <td class = "cell02"></td>
-            <td class = "cell03"></td>
-            <td class = "cell04"></td>
-            <td class = "cell05"></td>
+            <td class = "cell1"></td>
+            <td class = "cell2"></td>
+            <td class = "cell3"></td>
+            <td class = "cell4"></td>
+            <td class = "cell5"></td>
         </tr>
         <tr>
-            <td class = "cell06"></td>
-            <td class = "cell07"></td>
-            <td class = "cell08"></td>
-            <td class = "cell09"></td>
+            <td class = "cell6"></td>
+            <td class = "cell7"></td>
+            <td class = "cell8"></td>
+            <td class = "cell9"></td>
             <td class = "cell10"></td>
         </tr>
         <tr>
@@ -88,7 +88,7 @@
     </div>
 
     <div class= "phase">
-        <div class = "guessing hidden">
+        <div class = "guessing">
             <p class = "glue">Подсказка: <span class="glueWordAndNumber">котики 3</span></p>
             <button class = "stop_guessing_button">Завершить ход</button>
         </div>
@@ -101,11 +101,11 @@
             <button class = "making_glue_button">Отправить подсказку</button>
         </div>
 
-        <div class = "waiting_guessing hidden">
+        <div class = "waiting_guessing">
             <p>Другой игрок отградывает слова</p>
         </div>
 
-        <div class = "waiting_glue hidden">
+        <div class = "waiting_glue">
             <p>Ждите подсказки от другого игрока</p>
         </div>
     </div>
