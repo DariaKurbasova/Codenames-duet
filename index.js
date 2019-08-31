@@ -19,6 +19,11 @@ $(function () {
     let phaseWaitingGuessing = $('.waiting_guessing');
     let phaseWaitingGlue = $('.waiting_glue');
 
+    let mainTable = $('.main_table');
+    let cells = $('.main_table td');
+
+    let lastPhase = '';
+
     startButton.click(() => {
         let name = nameInput.val();
         if (name) {
@@ -88,13 +93,18 @@ $(function () {
     }
 
     function drawWords(words_array) {
-        let cells = $('.main_table td');
         for (let i = 0; i < words_array.length; i++) {
             cells[i].innerHTML = words_array[i].word;
             if ((words_array[i].type_me == 'killer' && words_array[i].guessed_me) || (words_array[i].type_partner == 'killer' && words_array[i].guessed_partner)) {
                 cells[i].classList.add('killer_cell_guessed');
+                cells[i].classList.remove('agent_cell');
+                cells[i].classList.remove('killer_cell');
+                cells[i].classList.remove('neutral_cell');
             } else if ((words_array[i].type_me == 'agent' && words_array[i].guessed_me) || (words_array[i].type_partner == 'agent' && words_array[i].guessed_partner)) {
                 cells[i].classList.add('agent_cell_guessed');
+                cells[i].classList.remove('agent_cell');
+                cells[i].classList.remove('killer_cell');
+                cells[i].classList.remove('neutral_cell');
             } else if (words_array[i].type_partner == 'killer' && !words_array[i].guessed_partner) {
                 cells[i].classList.add('killer_cell');
             } else if (words_array[i].type_partner == 'agent' && !words_array[i].guessed_partner) {
@@ -123,25 +133,38 @@ $(function () {
             case 'guess':
                 clearInterval(turnWaitingInterval);
                 turnWaitingInterval = null;
-                $('.main_table').removeClass('colored');
                 phaseGuessing.show();
                 break;
             case 'glue':
                 clearInterval(turnWaitingInterval);
                 turnWaitingInterval = null;
-                $('.main_table').addClass('colored');
                 phaseMakingGlue.show();
                 break;
             case 'waitingGuess':
-                $('.main_table').addClass('colored');
                 phaseWaitingGuessing.show();
                 startCheckingTurn();
                 break;
             case 'waitingGlue':
-                $('.main_table').removeClass('colored');
                 phaseWaitingGlue.show();
                 startCheckingTurn();
                 break;
+        }
+        if (lastPhase != phase) {
+            switch (phase) {
+                case 'guess':
+                    mainTable.removeClass('colored');
+                    break;
+                case 'glue':
+                    mainTable.addClass('colored');
+                    break;
+                case 'waitingGuess':
+                    mainTable.addClass('colored');
+                    break;
+                case 'waitingGlue':
+                    mainTable.removeClass('colored');
+                    break;
+            }
+            lastPhase = phase;
         }
     }
 
@@ -170,11 +193,11 @@ $(function () {
                 }
             }
         } else {
-            $('.main_table td').removeClass('clickable');
+            cells.removeClass('clickable');
         }
     }
 
-    $('.main_table').on('click', 'td.clickable', function () {
+    mainTable.on('click', 'td.clickable', function () {
         $.get('/ajax.php', {
             action: 'guess_word',
             cell_number: this.classList[0].substring(4)
@@ -298,7 +321,7 @@ $(function () {
     }
 
     $('.toggleColored').click(() => {
-        $('.main_table').toggleClass('colored');
+        mainTable.toggleClass('colored');
     });
 
     $('.restartGame').click(function () {
