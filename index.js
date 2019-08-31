@@ -19,6 +19,9 @@ $(function () {
     let phaseWaitingGuessing = $('.waiting_guessing');
     let phaseWaitingGlue = $('.waiting_glue');
 
+    let mainTable = $('.main_table');
+    let cells = $('.main_table td');
+
     startButton.click(() => {
         let name = nameInput.val();
         if (name) {
@@ -80,7 +83,6 @@ $(function () {
     }
 
     function drawWords(words_array) {
-        let cells = $('.main_table td');
         for (let i = 0; i < words_array.length; i++) {
             cells[i].innerHTML = words_array[i].word;
             if ((words_array[i].type_me == 'killer' && words_array[i].guessed_me) || (words_array[i].type_partner == 'killer' && words_array[i].guessed_partner)) {
@@ -115,18 +117,22 @@ $(function () {
             case 'guess':
                 clearInterval(turnWaitingInterval);
                 turnWaitingInterval = null;
+                mainTable.removeClass('colored');
                 phaseGuessing.show();
                 break;
             case 'glue':
                 clearInterval(turnWaitingInterval);
                 turnWaitingInterval = null;
+                mainTable.addClass('colored');
                 phaseMakingGlue.show();
                 break;
             case 'waitingGuess':
+                mainTable.addClass('colored');
                 phaseWaitingGuessing.show();
                 startCheckingTurn();
                 break;
             case 'waitingGlue':
+                mainTable.removeClass('colored');
                 phaseWaitingGlue.show();
                 startCheckingTurn();
                 break;
@@ -146,11 +152,11 @@ $(function () {
                 }
             }
         } else {
-            $('.main_table td').removeClass('clickable');
+            cells.removeClass('clickable');
         }
     }
 
-    $('.main_table').on('click', 'td.clickable', function () {
+    mainTable.on('click', 'td.clickable', function () {
         $.get('/ajax.php', {
             action: 'guess_word',
             cell_number: this.classList[0].substring(4)
@@ -259,7 +265,7 @@ $(function () {
     }
 
     $('.toggleColored').click(() => {
-        $('.main_table').toggleClass('colored');
+        mainTable.toggleClass('colored');
     });
 
     initStatus();
