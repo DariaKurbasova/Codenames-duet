@@ -161,6 +161,16 @@ $(function () {
             }
         })
     });
+    $('.stop_guessing_button').on('click', function () {
+        $.get('/ajax.php', {
+            action: 'end_turn',
+        }, result => {
+            result = JSON.parse(result);
+            if (result && result.game) {
+                startGame(result.game);
+            }
+        })
+    });
 
     function checkForStart() {
         $.get('/ajax.php', {
