@@ -47,6 +47,24 @@ if (isset($_GET['action'])) {
             echo json_encode($answer);
             break;
 
+        case 'guess_word':
+            $game = Game::getFromDb();
+            $cellNumber = (int)$_GET['cell_number'];
+            if ($game && $cellNumber >= 1 && $cellNumber <= 25) {
+                $success = $game->guessWord($cellNumber);
+                $answer = [
+                    'success' => $success,
+                    'game' => $game->toArray()
+                ];
+            } else {
+                $answer = [
+                    'success' => false
+                ];
+            }
+
+            echo json_encode($answer);
+            break;
+
         case 'check_turn':
             $game = Game::getFromDb();
             echo gameToJsonAnswer($game);
