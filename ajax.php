@@ -65,6 +65,21 @@ if (isset($_GET['action'])) {
             echo json_encode($answer);
             break;
 
+        case 'end_turn':
+            $game = Game::getFromDb();
+            if ($game) {
+                $success = $game->stopGuessing();
+                $answer = [
+                    'success' => $success,
+                    'game' => $game->toArray()
+                ];
+            } else {
+                $answer = [
+                    'success' => false
+                ];
+            }
+            break;
+
         case 'check_turn':
             $game = Game::getFromDb();
             echo gameToJsonAnswer($game);
