@@ -264,7 +264,7 @@ class Game
         $isFirstPlayer = $this->yourPlayerIndex == 1;
 
         // Сейчас игрок отгадывает?
-        if (($this->phase == self::PHASE_PLAYER1_GUESS && $isFirstPlayer) || ($this->phase == self::PHASE_PLAYER2_GUESS && !$isFirstPlayer)) {
+        if ($this->isGuessPhase()) {
             $this->getWordsFromDb();
             $word = $this->words[$cellNumber - 1];
 
@@ -301,6 +301,7 @@ class Game
         ";
         $database->query($sql);
     }
+
     private function savePhaseToDb()
     {
         global $database;
@@ -311,4 +312,22 @@ class Game
         $database->query($sql);
     }
 
+    public function stopGuessing()
+    {
+        if ($this->isGuessPhase()) {
+            $this->phase = ($this->yourPlayerIndex == 1) ? self::PHASE_PLAYER1_HINT : self::PHASE_PLAYER2_HINT;
+            $this->savePhaseToDb();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function isGuessPhase()
+    {
+        $isFirstPlayer = $this->yourPlayerIndex == 1;
+
+        // Сейчас игрок отгадывает?
+        return ($this->phase == self::PHASE_PLAYER1_GUESS && $isFirstPlayer) || ($this->phase == self::PHASE_PLAYER2_GUESS && !$isFirstPlayer);
+    }
 }
