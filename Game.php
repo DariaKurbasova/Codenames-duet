@@ -22,6 +22,9 @@ class Game
 
     private $wordsToShow = [];
     private $agentsFound = 0;
+    private $neutralsOpen = 0;
+    private $displayingPhase;
+    private $openedKiller = null;
 
     private $calculatedStatus;
 
@@ -126,13 +129,21 @@ class Game
             'player1Name' => $this->player1Name,
             'player2Name' => $this->player2Name,
             'status' => $this->status,
-            'phase' => $this->phase,
+            'phase' => $this->displayingPhase,
             'turnsCount' => $this->turnsCount,
             'agentsFound' => $this->agentsFound,
+            'neutralsOpen' => $this->neutralsOpen,
             'glueWord' => $this->glueWord,
             'glueNumber' => $this->glueNumber,
-            'words' => $this->wordsToShow
+            'words' => $this->wordsToShow,
+            'activePlayerName' => $this->getActivePlayerName(),
+            'openedKiller' => $this->openedKiller
         ];
+    }
+
+    private function getActivePlayerName()
+    {
+        return in_array($this->phase, [self::PHASE_PLAYER1_HINT, self::PHASE_PLAYER1_GUESS]) ? $this->player1Name : $this->player2Name;
     }
 
     public function getWordsFromDb()
@@ -156,13 +167,13 @@ class Game
         // Выводим фазу для текущего игрока
         $isFirstPlayer = ($this->yourPlayerIndex == 1);
         if ($this->phase == self::PHASE_PLAYER1_HINT) {
-            $this->phase = $isFirstPlayer ? 'glue' : 'waitingGlue';
+            $this->displayingPhase = $isFirstPlayer ? 'glue' : 'waitingGlue';
         } elseif ($this->phase == self::PHASE_PLAYER2_HINT) {
-            $this->phase = !$isFirstPlayer ? 'glue' : 'waitingGlue';
+            $this->displayingPhase = !$isFirstPlayer ? 'glue' : 'waitingGlue';
         } elseif ($this->phase == self::PHASE_PLAYER1_GUESS) {
-            $this->phase = $isFirstPlayer ? 'guess' : 'waitingGuess';
+            $this->displayingPhase = $isFirstPlayer ? 'guess' : 'waitingGuess';
         } elseif ($this->phase == self::PHASE_PLAYER2_GUESS) {
-            $this->phase = !$isFirstPlayer ? 'guess' : 'waitingGuess';
+            $this->displayingPhase = !$isFirstPlayer ? 'guess' : 'waitingGuess';
         }
     }
 
@@ -175,6 +186,7 @@ class Game
         $wordsToShow = [];
         $isFirstPlayer = ($this->yourPlayerIndex == 1);
         $agentsFound = 0;
+        $neutralsOpen = 0;
 
         foreach ($this->words as $word) {
             if ($isFirstPlayer) {
@@ -207,10 +219,18 @@ class Game
             if (($type_me == 'agent' && $guessed_me) || ($type_partner == 'agent' && $guessed_partner)) {
                 $agentsFound++;
             }
+            // Считаем нейтралов - тут 2 условия, т.к. одно слово может посчитаться дважды (если оба ошиблись с ним)
+            if ($type_me == 'neutral' && $guessed_me) {
+                $neutralsOpen++;
+            }
+            if ($type_partner == 'neutral' && $guessed_partner) {
+                $neutralsOpen++;
+            }
 
             // Проверяем условия победы и поражения
             if (($type_me == 'killer' && $guessed_me) || ($type_partner == 'killer' && $guessed_partner)) {
                 $this->calculatedStatus = self::STATUS_LOST;
+                $this->openedKiller = $word['word'];
             } elseif ($agentsFound == 15) {
                 $this->calculatedStatus = self::STATUS_WON;
             }
@@ -223,6 +243,7 @@ class Game
 
         $this->wordsToShow = $wordsToShow;
         $this->agentsFound = $agentsFound;
+        $this->neutralsOpen = $neutralsOpen;
     }
 
     public function makeGlue($glueWord, $glueNumber)

@@ -9,6 +9,22 @@ if (isset($_GET['action'])) {
             echo gameToJsonAnswer(checkWaitingPlayers());
             break;
 
+        case 'restart_game':
+            unset($_SESSION['game_id']);
+            unset($_SESSION['player_index']);
+            $name = $_SESSION['name'];
+            if (!empty($name)) {
+                putToWaiting($name);
+            }
+            $game = checkWaitingPlayers();
+            $status = [
+                'name' => $_SESSION['name'],
+                'is_waiting' => isNowWaiting(),
+                'is_playing' => ($game && $game instanceof Game) ? $game->toArray() : false
+            ];
+            echo json_encode($status);
+            break;
+
         case 'check_start':
             echo gameToJsonAnswer(checkWaitingPlayers());
             break;

@@ -75,8 +75,16 @@ $(function () {
         waitingPanel.hide();
         gamePanel.show();
         drawWords(gameData.words);
-        turnOnPhase(gameData.phase);
-        letWordsBeChosen(gameData);
+        if (gameData.status == 'in_process') {
+            turnOnPhase(gameData.phase);
+            letWordsBeChosen(gameData);
+        } else if (gameData.status == 'won') {
+            endGame();
+            displayWin(gameData);
+        } else if (gameData.status == 'lost') {
+            endGame();
+            displayLose(gameData);
+        }
     }
 
     function drawWords(words_array) {
@@ -135,6 +143,18 @@ $(function () {
                 startCheckingTurn();
                 break;
         }
+    }
+
+    function endGame() {
+        phaseGuessing.hide();
+        phaseMakingGlue.hide();
+        phaseWaitingGuessing.hide();
+        phaseWaitingGlue.hide();
+
+        clearInterval(turnWaitingInterval);
+        turnWaitingInterval = null;
+
+        $('.main_table td').removeClass('clickable');
     }
 
     function letWordsBeChosen (gameData) {
@@ -262,8 +282,53 @@ $(function () {
         }
     }
 
+    function displayWin(gameData)
+    {
+        $('.winPanel').show();
+        $('.winTurnsCount').text(gameData.turnsCount);
+        $('.winNeutralsCount').text(gameData.neutralsOpen);
+        // $('.winTimeSpent').text(gameData.timeSpent);
+    }
+
+    function displayLose(gameData)
+    {
+        $('.losePanel').show();
+        $('.losePlayerName').text(gameData.activePlayerName);
+        $('.loseWord').text(gameData.openedKiller);
+    }
+
     $('.toggleColored').click(() => {
         $('.main_table').toggleClass('colored');
+    });
+
+    $('.restartGame').click(function () {
+        $.get('/ajax.php', {
+            action: 'restart_game'
+        }, result => {
+            result = JSON.parse(result);
+            if (result) {
+                waitingPlayerName.text(name);
+                startPanel.hide();
+                waitingPanel.hide();
+                gamePanel.hide();
+
+                if (result.is_waiting) {
+                    waitingPlayerName.text(result.name);
+                    waitingPanel.show();
+                    runCheckingInterval();
+                } else if (result.is_playing) {
+                    startGame(result.is_playing);
+                } else {
+                    startPanel.show();
+                }
+
+                if (result.name) {
+                    nameInput.val(result.name);
+                }
+
+                // todo - Тут получается полное месиво, надо разобраться
+            }
+        });
     });
 
     initStatus();

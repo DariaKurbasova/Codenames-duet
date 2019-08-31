@@ -109,6 +109,28 @@
             <p>Ждите подсказки от другого игрока</p>
         </div>
     </div>
+
+    <div class="winPanel" style="display: none;">
+        <h2>
+            Вы победили!
+        </h2>
+        Затрачено ходов: <span class="winTurnsCount"></span>
+        <br>
+        Открыто нейтралов: <span class="winNeutralsCount"></span>
+        <br>
+        Затрачено времени: <span class="winTimeSpent">пока не измеряется</span>
+        <br>
+        <button class="restartGame">Начать заново</button>
+    </div>
+
+    <div class="losePanel" style="display: none;">
+        <h2>
+            Вы потерпели поражение!
+        </h2>
+        Игрок <span class="losePlayerName"></span> нажал на слово <span class="loseWord"></span>
+        <br>
+        <button class="restartGame">Начать заново</button>
+    </div>
 </section>
 
 <script
