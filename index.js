@@ -115,18 +115,22 @@ $(function () {
             case 'guess':
                 clearInterval(turnWaitingInterval);
                 turnWaitingInterval = null;
+                $('.main_table').removeClass('colored');
                 phaseGuessing.show();
                 break;
             case 'glue':
                 clearInterval(turnWaitingInterval);
                 turnWaitingInterval = null;
+                $('.main_table').addClass('colored');
                 phaseMakingGlue.show();
                 break;
             case 'waitingGuess':
+                $('.main_table').addClass('colored');
                 phaseWaitingGuessing.show();
                 startCheckingTurn();
                 break;
             case 'waitingGlue':
+                $('.main_table').removeClass('colored');
                 phaseWaitingGlue.show();
                 startCheckingTurn();
                 break;
