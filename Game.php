@@ -23,6 +23,8 @@ class Game
     private $wordsToShow = [];
     private $agentsFound = 0;
 
+    private $calculatedStatus;
+
     const STATUS_IN_PROCESS = 'in_process';
     const STATUS_WON = 'won';
     const STATUS_LOST = 'lost';
@@ -205,6 +207,18 @@ class Game
             if (($type_me == 'agent' && $guessed_me) || ($type_partner == 'agent' && $guessed_partner)) {
                 $agentsFound++;
             }
+
+            // Проверяем условия победы и поражения
+            if (($type_me == 'killer' && $guessed_me) || ($type_partner == 'killer' && $guessed_partner)) {
+                $this->calculatedStatus = self::STATUS_LOST;
+            } elseif ($agentsFound == 15) {
+                $this->calculatedStatus = self::STATUS_WON;
+            }
+            // Здесь же сохраним статус игры, если он изменился
+            if ($this->calculatedStatus && $this->calculatedStatus != $this->status) {
+                $this->status = $this->calculatedStatus;
+                $this->saveStatusToDb();
+            }
         }
 
         $this->wordsToShow = $wordsToShow;
@@ -223,10 +237,10 @@ class Game
             $this->glueNumber = $glueNumber;
             $this->saveGlueToDb();
         }
-
     }
 
-    public function saveGlueToDb() {
+    private function saveGlueToDb()
+    {
         global $database;
         $sql = "UPDATE games 
             SET phase = '{$this->phase}', hint_word = '{$this->glueWord}', hint_number = {$this->glueNumber} 
@@ -234,4 +248,67 @@ class Game
         ";
         $database->query($sql);
     }
+
+    private function saveStatusToDb()
+    {
+        global $database;
+        $sql = "UPDATE games 
+            SET status = '{$this->status}'
+            WHERE id = {$this->id}
+        ";
+        $database->query($sql);
+    }
+
+    public function guessWord($cellNumber)
+    {
+        $isFirstPlayer = $this->yourPlayerIndex == 1;
+
+        // Сейчас игрок отгадывает?
+        if (($this->phase == self::PHASE_PLAYER1_GUESS && $isFirstPlayer) || ($this->phase == self::PHASE_PLAYER2_GUESS && !$isFirstPlayer)) {
+            $this->getWordsFromDb();
+            $word = $this->words[$cellNumber - 1];
+
+            // Смотрим, что слово не было отгадано ранее
+            $guessedField = $isFirstPlayer ? 'guessed_by_player1' : 'guessed_by_player2';
+            $wordType = $isFirstPlayer ? $word['type_for_player1'] : $word['type_for_player2'];
+            $isGuessed = $word[$guessedField];
+            if (!$isGuessed) {
+                $word[$guessedField] = true;
+                // Сохраняем отгадку в БД
+                $this->saveWordGuessed($cellNumber, $guessedField);
+
+                // Если слово киллер - сразу сохраним проигрыш; если нейтральное - то переход фазы
+                if ($wordType == 'killer') {
+                    $this->status = self::STATUS_LOST;
+                    $this->saveStatusToDb();
+                } elseif ($wordType == 'neutral') {
+                    $this->phase = $isFirstPlayer ? self::PHASE_PLAYER1_HINT : self::PHASE_PLAYER2_HINT;
+                    $this->savePhaseToDb();
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private function saveWordGuessed($cellNumber, $guessedField)
+    {
+        global $database;
+        $sql = "UPDATE game_words 
+            SET $guessedField = 1
+            WHERE game_id = {$this->id} AND cell_number = {$cellNumber}
+        ";
+        $database->query($sql);
+    }
+    private function savePhaseToDb()
+    {
+        global $database;
+        $sql = "UPDATE games 
+            SET phase = '{$this->phase}' 
+            WHERE id = {$this->id}
+        ";
+        $database->query($sql);
+    }
+
 }
