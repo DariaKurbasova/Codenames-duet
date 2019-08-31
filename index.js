@@ -135,18 +135,32 @@ $(function () {
 
     function letWordsBeChosen (gameData) {
         if (gameData.phase == 'guess') {
-            for (let i = 1; i <= gameData.words.length; i++) {
-                let cell_class = '.cell' + i;
-                if (!gameData.words[i-1].guessed_me) {
-                    if (!gameData.words[i-1].guessed_partner) {
+            for (let i = 0; i < gameData.words.length; i++) {
+                let cell_class = '.cell' + (i+1);
+                if (!gameData.words[i].guessed_me) {
+                    if (!gameData.words[i].guessed_partner) {
                         $(cell_class).addClass('clickable');
-                    } else if (gameData.words[i-1].type_partner != 'killer' && gameData.words[i-1].type_partner != 'agent') {
+                    } else if (gameData.words[i].type_partner != 'killer' && gameData.words[i].type_partner != 'agent') {
                         $(cell_class).addClass('clickable');
                     }
                 }
             }
+        } else {
+            $('.main_table td').removeClass('clickable');
         }
     }
+
+    $('.main_table').on('click', 'td.clickable', function () {
+        $.get('/ajax.php', {
+            action: 'guess_word',
+            cell_number: this.classList[0].substring(4)
+        }, result => {
+            result = JSON.parse(result);
+            if (result && result.game) {
+                startGame(result.game);
+            }
+        })
+    });
 
     function checkForStart() {
         $.get('/ajax.php', {

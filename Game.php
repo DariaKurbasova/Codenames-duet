@@ -273,7 +273,7 @@ class Game
             $wordType = $isFirstPlayer ? $word['type_for_player1'] : $word['type_for_player2'];
             $isGuessed = $word[$guessedField];
             if (!$isGuessed) {
-                $word[$guessedField] = true;
+                $this->words[$cellNumber - 1][$guessedField] = true;
                 // Сохраняем отгадку в БД
                 $this->saveWordGuessed($cellNumber, $guessedField);
 
