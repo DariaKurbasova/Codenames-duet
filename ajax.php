@@ -78,6 +78,8 @@ if (isset($_GET['action'])) {
                     'success' => false
                 ];
             }
+
+            echo json_encode($answer);
             break;
 
         case 'check_turn':
