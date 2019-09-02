@@ -236,6 +236,7 @@ class Game
             }
             // Здесь же сохраним статус игры, если он изменился
             if ($this->calculatedStatus && $this->calculatedStatus != $this->status) {
+                $this->turnsCount++;
                 $this->status = $this->calculatedStatus;
                 $this->saveStatusToDb();
             }
@@ -274,7 +275,7 @@ class Game
     {
         global $database;
         $sql = "UPDATE games 
-            SET status = '{$this->status}'
+            SET status = '{$this->status}', turns_count = {$this->turnsCount}
             WHERE id = {$this->id}
         ";
         $database->query($sql);
@@ -301,9 +302,11 @@ class Game
                 // Если слово киллер - сразу сохраним проигрыш; если нейтральное - то переход фазы
                 if ($wordType == 'killer') {
                     $this->status = self::STATUS_LOST;
+                    $this->turnsCount++;
                     $this->saveStatusToDb();
                 } elseif ($wordType == 'neutral') {
                     $this->phase = $isFirstPlayer ? self::PHASE_PLAYER1_HINT : self::PHASE_PLAYER2_HINT;
+                    $this->turnsCount++;
                     $this->savePhaseToDb();
                 }
             }
@@ -327,7 +330,7 @@ class Game
     {
         global $database;
         $sql = "UPDATE games 
-            SET phase = '{$this->phase}' 
+            SET phase = '{$this->phase}', turns_count = {$this->turnsCount} 
             WHERE id = {$this->id}
         ";
         $database->query($sql);
@@ -337,6 +340,7 @@ class Game
     {
         if ($this->isGuessPhase()) {
             $this->phase = ($this->yourPlayerIndex == 1) ? self::PHASE_PLAYER1_HINT : self::PHASE_PLAYER2_HINT;
+            $this->turnsCount++;
             $this->savePhaseToDb();
             return true;
         } else {
