@@ -152,6 +152,7 @@ p.glue {
 .clickable:active {
     box-shadow: inset 0 0 30px 10px rgba(175, 200, 255, 0.84);;
 }
+
 #startPanel .start-game {
     margin-top: 30px;
     margin-left: 200px;
@@ -183,4 +184,39 @@ p.glue {
     margin-left: 80px;
     font-size: 17px;
     line-height: 20px;
+}
+
+#waitingPanel {
+    display: block;
+    width: 300px;
+    margin: 200px auto;
+}
+#waitingPanel, #cancelButton {
+    font-family: Tahoma, sans-serif;
+}
+.button {
+    font-size: 20px;
+    line-height: 25px;
+    padding: 2px 7px;
+    background-color: #d0d7e2;
+    box-shadow: inset 0 0 7px #b2b8c3;
+    cursor: pointer;
+}
+.big-button {
+    background-color: #d0d7e2;
+    box-shadow: inset 0 0 7px #b2b8c3;
+    cursor: pointer;
+}
+#waitingPanel h2, #waitingPanel h3 {
+    text-align: center;
+}
+#waitingPanel svg {
+    display: block;
+    width: 120px;
+    margin: 0 auto;
+}
+#cancelButton {
+    width: 87px;
+    display: block;
+    margin: 0 auto;
 }
